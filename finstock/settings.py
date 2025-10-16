@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
 
-FMP_API_KEY = os.environ.get("FMP_API_KEY", "rkWdx3KpAZ7tQQQTfPTExAywPhYvnGAr")
-FMP_BASE = "https://financialmodelingprep.com/stable"
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")  # carrega o .env
+
+# ... resto do settings
 
 
 # Quick-start development settings - unsuitable for production
