@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")  # carrega o .env
@@ -25,9 +26,9 @@ load_dotenv(BASE_DIR / ".env")  # carrega o .env
 SECRET_KEY = 'django-insecure-^hop01g*00x-+%fg@3yg4gwe&o#=kn@-twh0h-e6@*u9e*dt!r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,10 +80,11 @@ WSGI_APPLICATION = 'finstock.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://finscope_user:87bMV8tHfngGAC6whMkGe1dF93g76vyR@dpg-d3oinnbe5dus73apj5l0-a.oregon-postgres.render.com/finscope',
+        conn_max_age=600,
+        ssl_require=not DEBUG
+    )
 }
 
 

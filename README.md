@@ -50,6 +50,9 @@ APIS utilizadas:
 
     Observação: retorna CSV; usei os dois últimos “Close” para preço/variação. Símbolo em minúsculas com sufixo .us.
 
+---------------------------
+
+exeternal bases url postgres: postgresql://finscope_user:87bMV8tHfngGAC6whMkGe1dF93g76vyR@dpg-d3oinnbe5dus73apj5l0-a.oregon-postgres.render.com/finscope
 
 ----------------------------
 env\Scripts\activate
