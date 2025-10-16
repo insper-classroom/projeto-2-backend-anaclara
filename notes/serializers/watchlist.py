@@ -2,7 +2,6 @@ from rest_framework import serializers
 from ..models import WatchItem
 
 class WatchItemSerializer(serializers.ModelSerializer):
-    # aliases amigáveis pra aceitar payloads vindos do front
     symbol = serializers.CharField(write_only=True, required=False)
     targetPrice = serializers.DecimalField(max_digits=12, decimal_places=2, write_only=True, required=False)
     target = serializers.DecimalField(max_digits=12, decimal_places=2, write_only=True, required=False)

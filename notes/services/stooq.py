@@ -49,13 +49,12 @@ def quote(symbol: str) -> dict:
 
     return {
         "symbol": symbol,
-        "name": "",  # Stooq não traz nome curto aqui; mantemos vazio
+        "name": "",  # Stooq não traz nome curto 
         "price": price,
         "previous_close": prev,
         "change": change,
         "change_pct": change_pct,
         "as_of": last.get("Date"),
-        "market_cap": None,  # Stooq não expõe market cap
     }
 
 def _to_float(v):

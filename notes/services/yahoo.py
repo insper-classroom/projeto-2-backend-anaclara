@@ -1,4 +1,3 @@
-# notes/services/yahoo.py
 import requests
 
 YF_BASES = (
@@ -28,7 +27,7 @@ def _get(path: str, params: dict | None = None, timeout: int = 15):
     for base in YF_BASES:
         try:
             r = requests.get(f"{base}{path}", headers=HEADERS, params=params, timeout=timeout)
-            if r.status_code in (401, 403, 429):  # bloqueios usuais
+            if r.status_code in (401, 403, 429):  
                 last_exc = YahooError(r.status_code, f"Yahoo HTTP {r.status_code}")
                 continue
             r.raise_for_status()
