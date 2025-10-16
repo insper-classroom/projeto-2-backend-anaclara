@@ -1,7 +1,4 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 class WatchItem(models.Model):
     DIRECTION_CHOICES = [
@@ -9,8 +6,8 @@ class WatchItem(models.Model):
         ("below", "Abaixo do alvo"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watchitems")
-    ticker = models.CharField(max_length=32)
+    # sem usuário
+    ticker = models.CharField(max_length=32, unique=True, db_index=True)
     target_price = models.DecimalField(max_digits=16, decimal_places=4)
     direction = models.CharField(max_length=8, choices=DIRECTION_CHOICES, default="above")
     notes = models.TextField(blank=True, default="")
@@ -22,6 +19,7 @@ class WatchItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("user", "ticker")  # 1 watch por ticker p/ usuário 
+        ordering = ("-updated_at",)
+
     def __str__(self):
-        return f"{self.user} - {self.ticker} ({self.direction} {self.target_price})"
+        return f"{self.ticker} ({self.direction} {self.target_price})"

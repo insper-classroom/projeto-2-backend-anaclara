@@ -2,6 +2,13 @@
 
 LINK API https://site.financialmodelingprep.com/developer/docs
 
+
+funcionalidade 1: Company Symbols List API: https://financialmodelingprep.com/stable/stock-list?apikey=rkWdx3KpAZ7tQQQTfPTExAywPhYvnGAr
+
+funcionanalidade 2: stock quote API: 
+https://financialmodelingprep.com/stable/quote?symbol=AAPL&apikey=kWdx3KpAZ7tQQQTfPTExAywPhYvnGAr
+
+
 API KEY: rkWdx3KpAZ7tQQQTfPTExAywPhYvnGAr
 
 

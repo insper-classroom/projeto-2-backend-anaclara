@@ -3,6 +3,8 @@ from .models import WatchItem
 
 @admin.register(WatchItem)
 class WatchItemAdmin(admin.ModelAdmin):
-    list_display = ("user", "ticker", "target_price", "direction", "is_active", "last_trigger_at", "updated_at")
+    list_display = ("ticker", "target_price", "direction", "is_active", "updated_at")
+    search_fields = ("ticker", "notes")
     list_filter = ("direction", "is_active")
-    search_fields = ("ticker", "user__username")
+    ordering = ("-updated_at",)
+    readonly_fields = ("created_at", "updated_at", "last_trigger_at")
