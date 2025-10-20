@@ -11,12 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import load_dotenv
 import os
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")  # carrega o .env
+
+# Carrega .env apenas se python-dotenv estiver disponível
+try:
+    from dotenv import load_dotenv  
+    load_dotenv(BASE_DIR / ".env")
+except Exception:
+    pass
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +34,7 @@ SECRET_KEY = 'django-insecure-^hop01g*00x-+%fg@3yg4gwe&o#=kn@-twh0h-e6@*u9e*dt!r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition

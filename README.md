@@ -63,13 +63,3 @@ python manage.py makemigrations notes
 
 aplicar no banco
 python manage.py migrate
-
-
-Trocar no settings para rodar no render
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://exemplo_prj1b_user:vCvVTXQPY8MSTCTUjkBxXQcKsdfAsqIJ@dpg-d31fjfqdbo4c73a7p4eg-a.oregon-postgres.render.com/exemplo_prj1b',
-        conn_max_age=600,
-        ssl_require=not DEBUG
-    )
-}

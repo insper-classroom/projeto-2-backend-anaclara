@@ -1,47 +1,38 @@
+# notes/serializers/watchlist.py
 from rest_framework import serializers
 from ..models import WatchItem
 
 class WatchItemSerializer(serializers.ModelSerializer):
+    # aliases aceitos na escrita (para o front antigo)
     symbol = serializers.CharField(write_only=True, required=False)
-    targetPrice = serializers.DecimalField(max_digits=12, decimal_places=2, write_only=True, required=False)
-    target = serializers.DecimalField(max_digits=12, decimal_places=2, write_only=True, required=False)
+    targetPrice = serializers.DecimalField(
+        write_only=True, required=False, max_digits=12, decimal_places=2
+    )
 
     class Meta:
         model = WatchItem
-        fields = (
+        fields = [
             "id",
-            "ticker",        # nome canônico no modelo
-            "symbol",        # alias de entrada
-            "target_price",  # canônico
-            "targetPrice",   # alias de entrada
-            "target",        # alias de entrada
-            "direction",
+            "ticker",
+            "target_price",
             "notes",
+            "direction",
             "is_active",
             "created_at",
             "updated_at",
-        )
-        read_only_fields = ("id", "created_at", "updated_at")
-
-    def to_internal_value(self, data):
-        # Trabalhar numa cópia
-        data = {**data}
-
-        # symbol -> ticker (se vier)
-        if "symbol" in data and "ticker" not in data:
-            data["ticker"] = data.pop("symbol")
-
-        # targetPrice/target -> target_price (se vier)
-        if "target_price" not in data:
-            if "targetPrice" in data:
-                data["target_price"] = data.pop("targetPrice")
-            elif "target" in data:
-                data["target_price"] = data.pop("target")
-
-        return super().to_internal_value(data)
+            # aliases opcionais
+            "symbol",
+            "targetPrice",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at"]
 
     def validate(self, attrs):
-        # default pra direction se não vier (acima do alvo)
-        if not attrs.get("direction"):
-            attrs["direction"] = "above"
+        # mapear aliases -> campos reais
+        sym = attrs.pop("symbol", None)
+        if sym and not attrs.get("ticker"):
+            attrs["ticker"] = sym
+
+        tp = attrs.pop("targetPrice", None)
+        if tp is not None and attrs.get("target_price") is None:
+            attrs["target_price"] = tp
         return attrs
