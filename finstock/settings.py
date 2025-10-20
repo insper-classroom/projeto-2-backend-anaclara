@@ -137,5 +137,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # INTEGRAÇÃO COM FRONT
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    'https://projeto-2-frontend-anaclara.onrender.com',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://projeto-2-frontend-anaclara.onrender.com',
 ]
