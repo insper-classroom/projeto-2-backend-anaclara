@@ -1,9 +1,7 @@
-# notes/serializers/watchlist.py
 from rest_framework import serializers
 from ..models import WatchItem
 
 class WatchItemSerializer(serializers.ModelSerializer):
-    # aliases aceitos na escrita (para o front antigo)
     symbol = serializers.CharField(write_only=True, required=False)
     targetPrice = serializers.DecimalField(
         write_only=True, required=False, max_digits=12, decimal_places=2
@@ -20,14 +18,12 @@ class WatchItemSerializer(serializers.ModelSerializer):
             "is_active",
             "created_at",
             "updated_at",
-            # aliases opcionais
             "symbol",
             "targetPrice",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
 
     def validate(self, attrs):
-        # mapear aliases -> campos reais
         sym = attrs.pop("symbol", None)
         if sym and not attrs.get("ticker"):
             attrs["ticker"] = sym
