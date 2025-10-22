@@ -136,13 +136,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # INTEGRAÇÃO COM FRONT
-CORS_ALLOWED_ORIGINS = [
-    'https://projeto-2-frontend-anaclara.onrender.com',
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    '*'
-]
+CORS_ALLOW_ALL_ORIGINS = True
+# Remova "*" das listas; mantenha CSRF_TRUSTED_ORIGINS só com hosts válidos ou deixe vazio se não usar sessão.
 CSRF_TRUSTED_ORIGINS = [
     'https://projeto-2-frontend-anaclara.onrender.com',
-    '*'
 ]
+
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
