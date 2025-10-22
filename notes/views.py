@@ -53,7 +53,7 @@ def details_view(request, symbol: str):
             return Response({"detail": "Cotações indisponíveis no momento."}, status=status.HTTP_502_BAD_GATEWAY)
         return Response({}, status=status.HTTP_200_OK)
 
-    # EUA/outros: Yahoo -> Stooq
+    # EUA/outros: Yahoo  Stooq
     try:
         d = yahoo.quote(symbol_up)
         if d:
