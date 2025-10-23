@@ -5,19 +5,17 @@ Django settings for finstock project (Render deploy).
 from pathlib import Path
 import os
 import dj_database_url
+from corsheaders.defaults import default_headers
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Carregar .env (opcional) — não falha se python-dotenv não estiver instalado
+# .env
 try:
     from dotenv import load_dotenv
     load_dotenv(BASE_DIR / ".env")
 except Exception:
     pass
 
-# ---------------------------------------------------------------------
-# Básico
-# ---------------------------------------------------------------------
 SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY",
     "django-insecure-^hop01g*00x-+%fg@3yg4gwe&o#=kn@-twh0h-e6@*u9e*dt!r",
@@ -33,9 +31,6 @@ ALLOWED_HOSTS = [
     "0.0.0.0",
 ]
 
-# ---------------------------------------------------------------------
-# Apps
-# ---------------------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -48,12 +43,9 @@ INSTALLED_APPS = [
     "notes",
 ]
 
-# ---------------------------------------------------------------------
-# Middlewares (corsheaders o mais alto possível, antes de CommonMiddleware)
-# ---------------------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",          # <== IMPORTANTE
+    "corsheaders.middleware.CorsMiddleware",   # CORS precisa vir antes de CommonMiddleware
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -81,9 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "finstock.wsgi.application"
 
-# ---------------------------------------------------------------------
-# Banco de dados (Render usa DATABASE_URL; mantive o default que você já tinha)
-# ---------------------------------------------------------------------
 DATABASES = {
     "default": dj_database_url.config(
         default=os.getenv(
@@ -95,9 +84,6 @@ DATABASES = {
     )
 }
 
-# ---------------------------------------------------------------------
-# Validações de senha
-# ---------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -105,47 +91,36 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# ---------------------------------------------------------------------
-# i18n
-# ---------------------------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# ---------------------------------------------------------------------
-# Arquivos estáticos
-# ---------------------------------------------------------------------
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ---------------------------------------------------------------------
-# CORS / CSRF — libera o seu frontend e o localhost; resolve preflight de DELETE/PATCH
-# ---------------------------------------------------------------------
-# Em produção, prefira listas explícitas em vez de CORS_ALLOW_ALL_ORIGINS=True
+# --- CORS/CSRF ---
 CORS_ALLOWED_ORIGINS = [
     "https://projeto-2-frontend-anaclara.onrender.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+# Para testes emergenciais (NÃO usar em produção): 
+# CORS_ALLOW_ALL_ORIGINS = True
 
-# Métodos e headers extras que garantem o preflight bem-sucedido
-from corsheaders.defaults import default_methods, default_headers
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-CORS_ALLOW_HEADERS = ["accept", "accept-language", "content-type", "origin", "authorization", "x-requested-with"]
+CORS_ALLOW_HEADERS = list(set(default_headers) | {
+    "content-type", "origin", "authorization", "x-requested-with"
+})
 
-# Se for usar sessão/CSRF com o browser
 CSRF_TRUSTED_ORIGINS = [
     "https://projeto-2-frontend-anaclara.onrender.com",
+    # Se usar túnel/preview https local, adicione aqui.
 ]
 
-# Render faz proxy HTTPS -> HTTP
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# ---------------------------------------------------------------------
-# REST Framework (opcional: JSON only em prod)
-# ---------------------------------------------------------------------
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (
         ["rest_framework.renderers.JSONRenderer"]
