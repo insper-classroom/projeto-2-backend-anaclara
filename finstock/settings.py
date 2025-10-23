@@ -132,8 +132,8 @@ CORS_ALLOWED_ORIGINS = [
 
 # Métodos e headers extras que garantem o preflight bem-sucedido
 from corsheaders.defaults import default_methods, default_headers
-CORS_ALLOW_METHODS = list(default_methods) + ["PATCH", "DELETE", "OPTIONS"]
-CORS_ALLOW_HEADERS = list(default_headers) + ["content-type", "authorization"]
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["accept", "accept-language", "content-type", "origin", "authorization", "x-requested-with"]
 
 # Se for usar sessão/CSRF com o browser
 CSRF_TRUSTED_ORIGINS = [
