@@ -23,4 +23,5 @@ router.register(r"watchlist", WatchItemViewSet, basename="watchlist")
 
 urlpatterns = [
     path("api/", include(router.urls)),
+    path("api/", include("notes.urls")),
 ]
