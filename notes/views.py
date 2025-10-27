@@ -19,7 +19,7 @@ def search_view(request):
         return Response({"detail": "Parâmetro 'q' é obrigatório."}, status=status.HTTP_400_BAD_REQUEST)
     limit = int(request.query_params.get("limit", 10))
 
-    # Yahoo primeiro; se nada, tenta brapi (bom p/ B3)
+    # Yahoo primeiro -> se nada, tenta brapi (bom p/ B3)
     try:
         data = yahoo.search(q, limit=limit)
         if data.get("count"):
@@ -74,7 +74,7 @@ def details_view(request, symbol: str):
 
 class WatchItemViewSet(viewsets.ModelViewSet):
     serializer_class = WatchItemSerializer
-    queryset = WatchItem.objects.all().order_by("-id")  # ajuste seu filtro por usuário, se houver
+    queryset = WatchItem.objects.all().order_by("-id")  # ajuste filtro por usuário, se houver
 
     # DELETE /api/watchlist/by-ticker?ticker=PETR4.SA
     @action(detail=False, methods=["delete"], url_path="by-ticker")

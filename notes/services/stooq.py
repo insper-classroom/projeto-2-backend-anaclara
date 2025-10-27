@@ -1,4 +1,3 @@
-# notes/services/stooq.py
 import csv
 import io
 import requests
@@ -21,7 +20,7 @@ def _us_symbol(symbol: str) -> str:
     if "." in s:
         base, suf = s.split(".", 1)
         if suf != "US":
-            # se não é .US, deixamos como base + .us mesmo assim (stooq só tem .us, .uk etc.)
+            # se não é .US, deixa como base + .us mesmo assim (stooq só tem .us, .uk etc.)
             pass
         return f"{base.lower()}.us"
     return f"{s.lower()}.us"
